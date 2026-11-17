@@ -15,7 +15,7 @@ Apenas `main` é permanente. Use um fork e crie sua branch a partir dela. Abra u
 
 ## Verificação local
 
-Use Node.js 20 ou superior. O projeto funciona sem instalar dependências.
+Use Node.js 24 ou superior. O projeto funciona sem instalar dependências.
 
 ```sh
 node scripts/build.js

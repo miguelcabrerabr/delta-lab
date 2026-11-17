@@ -2,3 +2,4 @@ node_modules/
 *.log
 artifacts/
 /Delta-Lab.zip
+/.data/
