@@ -2,7 +2,7 @@
 
 Projeto aberto sob a [licença MIT](LICENSE). Veja [como contribuir](CONTRIBUTING.md) para conhecer o fluxo de branches, testes e pull requests.
 
-Plataforma de estudo em português brasileiro, com conteúdo original e experimentos financeiros executados no próprio dispositivo. Sem backend, login, CDN, telemetria, APIs de mercado ou dependências pagas.
+Plataforma de estudo em português brasileiro, com conteúdo original e experimentos financeiros executados no próprio dispositivo. Disponível como HTML offline ou servidor local com contas e SQLite. Sem CDN, telemetria, APIs de mercado ou dependências pagas.
 
 ## Abrir e estudar
 
@@ -13,6 +13,16 @@ Se o aplicativo de arquivos apenas mostrar o código HTML, use “Abrir com” e
 Comece pelo diagnóstico, siga a aula recomendada e pratique no laboratório associado. A navegação é livre. Registre uma aula como lida separadamente de resolver seus exercícios. O domínio considera as últimas respostas para cada questão objetiva única, com critério de pelo menos 80%; questões abertas não recebem nota automática.
 
 Em **Meu progresso**, exporte um backup JSON regularmente. A importação valida a estrutura e substitui o histórico local pelo backup. O armazenamento pertence ao navegador/origem; trocar de navegador, limpar os dados ou mudar o caminho do HTML pode criar um espaço de progresso diferente. Se o navegador bloquear o armazenamento, a interface avisa e permite exportar o estado em memória.
+
+## Contas e progresso em SQLite
+
+Use Node.js 24 ou superior e execute `node scripts/serve.js` na pasta do projeto. Abra [http://127.0.0.1:4173](http://127.0.0.1:4173), clique em **Criar conta** e escolha usuário e senha. Cada conta tem sua própria trilha. A tela inicial oferece **Retomar última aula** e **Retomar avaliação em andamento** depois que houver dados para recuperar. O sistema salva o último rascunho de avaliação editado, inclusive os parâmetros dos exercícios.
+
+Para migrar do HTML offline, exporte o JSON na versão antiga e importe em **Meu progresso** depois de entrar na conta. O HTML aberto diretamente segue usando o armazenamento do navegador.
+
+O banco padrão fica em `.data/delta-lab.sqlite`, fora dos arquivos servidos e do Git. Use `DELTA_DB` para escolher outro local. Para copiar o banco, pare o servidor antes do backup. Ao encerrar ou trocar de aba, aguarde a confirmação de salvamento. Se duas abas tentarem salvar a mesma conta, a segunda recebe um aviso e pode exportar o que ficou pendente.
+
+O servidor é para uso local em loopback. A versão atual não oferece recuperação de senha, HTTPS ou hospedagem multiusuário via internet. Para acesso por outros dispositivos seria necessário preparar uma implantação própria. Guarde o JSON ou um backup do banco para recuperar os dados.
 
 ## Conteúdo e ferramentas
 
@@ -40,11 +50,11 @@ Consulte `docs/CURRICULUM.md` para o mapa curricular e as referências. Todos os
 7. **Hedge:** um único caminho GBM, sem jumps, liquidez, borrow fee separado, margem, impacto de mercado nem spreads dinâmicos. Custo proporcional em bps aproxima comissão/slippage. Caixa recebe/paga a mesma taxa r. Dividendos são aproximados por yield a cada passo. O saldo final inclui financiamento dos custos.
 8. **Barreiras:** simulador de payoff, sem preço ou probabilidades de mercado. Monitoramento discreto em 61 observações, incluindo início e fim; igualdade é toque. Rebate pago no vencimento se a opção estiver inativa. Não detecta toques entre observações nem modela monitoramento contínuo.
 9. **Superfície/exóticas:** local vol, volatilidade estocástica, asiáticas, lookbacks e autocallables são ensinados com teoria, cálculos e casos; não há calibrador de superfície nem precificador de todos esses produtos.
-10. **Avaliação:** gabarito oculto pela interface até a entrega; trata-se de estudo local, sem proteção contra inspeção do código. Casos abertos são autoavaliados. Não há IA conectada, certificação ou sincronização entre dispositivos. Uma prova ainda não entregue é mantida somente na sessão, sem sobreviver a recarga.
+10. **Avaliação:** gabarito oculto pela interface até a entrega; trata-se de estudo local, sem proteção contra inspeção do código. Casos abertos são autoavaliados. Não há IA conectada nem certificação. O último rascunho de uma avaliação pode ser retomado após recarregar.
 
 ## Código e execução
 
-Requer Node.js 20+ apenas para desenvolvimento/testes/servidor opcional. Para estudar, basta o HTML pronto.
+Requer Node.js 24+ para desenvolvimento, testes e servidor SQLite. Para estudar, basta o HTML pronto.
 
 ```text
 node scripts/build.js
